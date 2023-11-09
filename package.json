@@ -1,0 +1,17 @@
+{
+  "name": "proj_step3",
+  "version": "1.0.0",
+  "description": "project step 3 draft WIP",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tranjef",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "forever": "^4.0.3",
+    "mysql": "^2.18.1"
+  }
+}
