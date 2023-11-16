@@ -23,7 +23,7 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 
 
 /*
-    ROUTES
+    GET ROUTES
 */
 app.get('/', function(req, res)
     {  
@@ -35,13 +35,38 @@ app.get('/', function(req, res)
         })                                                      // an object where 'data' is equal to the 'rows' we
     });                                                         // received back from the query
 
-app.get('/boots', (req, res) => {
+app.get('/books', (req, res) => {
         // render your contact.handlebars
-        let query2 = "SELECT * FROM Books;";               // Define our query
+        let query1;                                 // Define our query
 
-        db.pool.query(query2, function(error, rows, fields){    // Execute the query
+        // If there is no query string, we just perform a basic SELECT
+        if (req.query.title === undefined && req.query.authorName === undefined && 
+            req.query.genre === undefined)
+        {
+            query1 = "SELECT * FROM Books;";   // Basic select
+        }
 
-            res.render('boots', {data: rows});                  // Render the boots.hbs file, and also send the renderer
+        // If there is a query title, return desired results for search
+        else if (req.query.title !== undefined)
+        {
+            query1 = `SELECT * FROM Books WHERE title = "${req.query.title}"`
+        }
+
+        // If there is a query authorName, return desired results for search
+        else if (req.query.authorName !== undefined)
+        {
+            query1 = `SELECT * FROM Books WHERE authorName = "${req.query.authorName}"`
+        }
+
+        // If there is a query genre, return desired results for search
+        else if (req.query.genre !== undefined)
+        {
+            query1 = `SELECT * FROM Books WHERE genre = "${req.query.genre}"`
+        }
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('books', {data: rows});                  // Render the books.hbs file, and also send the renderer
         })
     });
 
@@ -104,6 +129,80 @@ app.get('/codes', (req, res) => {
             res.render('codes', {data: rows});                  // Render the readers.hbs file, and also send the renderer
         })
     });
+
+
+/*
+    POST ROUTES
+*/
+
+app.post('/add-book-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let year = parseInt(data['input-year']);
+    if (isNaN(year))
+    {
+        year = 'NULL'
+    }
+    
+    // Create the query and run it on the database
+    insert_query = `INSERT INTO Books (title, authorName, genre, year, publisher) VALUES ('${data['input-title']}', '${data['input-authorName']}', '${data['input-genre']}', '${year}', '${data['input-publisher']}')`;
+    if (`${data['input-title']}` === '' || `${data['input-authorName']}` === '' || `${data['input-year']}` === '' ||`${data['input-publisher']}` === ''){
+        console.log("Required Parameter(s) blank.")
+        res.sendStatus(400);
+    }
+
+    else{
+        db.pool.query(insert_query, function(error, rows, fields){
+
+            // Check to see if there was an error
+            if (error) {
+    
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+    
+            // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
+            // presents it on the screen
+            else
+            {
+                res.redirect('/books');
+            }
+        })
+    }
+    
+})
+    
+
+/*
+    DELETE ROUTES
+*/
+
+app.delete('/deleteBook/', function(req,res,next){
+    let data = req.body;
+    let bookID = parseInt(data.bookID);
+    let deleteBooks = `DELETE FROM Books WHERE bookID = ?`;  
+    
+          // Run the 1st query
+          db.pool.query(deleteBooks, [bookID], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+            }
+        )
+    }
+);
+
+// app.js
+
+
+
+
 
 /*
     LISTENER
