@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 
-PORT        = 6136;                 // Set a port number at the top so it's easy to change in the future
+PORT        = 6137;                 // Set a port number at the top so it's easy to change in the future
 
 // Database
 var db = require('./db-connector')
@@ -41,9 +41,70 @@ app.get('/boots', (req, res) => {
 
         db.pool.query(query2, function(error, rows, fields){    // Execute the query
 
-            res.render('boots', {data: rows});                  // Render the index.hbs file, and also send the renderer
+            res.render('boots', {data: rows});                  // Render the boots.hbs file, and also send the renderer
         })
     });
+
+app.get('/librarians', (req, res) => {
+        // render your contact.handlebars
+        let query3 = "SELECT * FROM Librarians;";               // Define our query
+
+        db.pool.query(query3, function(error, rows, fields){    // Execute the query
+
+            res.render('librarians', {data: rows});                  // Render the librarians.hbs file, and also send the renderer
+        })
+    });
+
+app.get('/readers', (req, res) => {
+        // render your contact.handlebars
+        let query4 = "SELECT * FROM Readers;";               // Define our query
+
+        db.pool.query(query4, function(error, rows, fields){    // Execute the query
+
+            res.render('readers', {data: rows});                  // Render the readers.hbs file, and also send the renderer
+        })
+    });
+
+app.get('/transactions', (req, res) => {
+        // render your contact.handlebars
+        let query5 = "SELECT * FROM Transactions;";               // Define our query
+
+        db.pool.query(query5, function(error, rows, fields){    // Execute the query
+
+            res.render('transactions', {data: rows});                  // Render the readers.hbs file, and also send the renderer
+        })
+    });
+
+app.get('/copies', (req, res) => {
+        // render your contact.handlebars
+        let query6 = "SELECT * FROM Copies;";               // Define our query
+
+        db.pool.query(query6, function(error, rows, fields){    // Execute the query
+
+            res.render('copies', {data: rows});                  // Render the readers.hbs file, and also send the renderer
+        })
+    });
+
+app.get('/details', (req, res) => {
+        // render your contact.handlebars
+        let query7 = "SELECT * FROM TransactionDetails;";               // Define our query
+
+        db.pool.query(query7, function(error, rows, fields){    // Execute the query
+
+            res.render('details', {data: rows});                  // Render the readers.hbs file, and also send the renderer
+        })
+    });
+
+app.get('/codes', (req, res) => {
+        // render your contact.handlebars
+        let query8 = "SELECT * FROM StatusCodes;";               // Define our query
+
+        db.pool.query(query8, function(error, rows, fields){    // Execute the query
+
+            res.render('codes', {data: rows});                  // Render the readers.hbs file, and also send the renderer
+        })
+    });
+
 /*
     LISTENER
 */

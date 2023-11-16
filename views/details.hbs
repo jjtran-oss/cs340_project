@@ -1,0 +1,101 @@
+<!-- boots.hbs -->
+[ <a href='/'>Libraries</a> | <a href='/boots'>Books</a> | <a href="/librarians">Librarians</a> | <a href="/readers">Readers</a> | <a href="/transactions">Transactions</a> | <a href="/copies">Copies</a> | <a href="/details">Transaction Details</a> | <a href="/codes">Status Codes</a>]
+
+<h1>Transaction Details</h1>
+<p><strong>Please see below for details pertaining to all library system transactions:</strong></p>
+
+{{!-- Create a table --}}
+<table id="details-table" border="2" cellpadding="5">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value={{this.transactionDetailsID}}>
+            <td>{{this.transactionDetailsID}}</td>
+            <td>{{this.transactionID}}</td>
+            <td>{{this.copyID}}</td>
+            <td>{{this.transactionType}}</td>
+            <td>{{this.returnedLate}}</td>
+            <td>{{this.daysLate}}</td>
+            <td>{{this.bookFee}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h2>Add New Transaction Details</h2>
+<p></p>
+<form id="add-person-form" method="POST" action="/">
+    <label for="input-fname">Transaction: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Transaction</option>
+        {{#each data}}
+        <option value="{{this.transactionDetailsID}}">{{this.transactionID}}</option>
+        {{/each}}
+    </select>
+    
+    <label for="input-lname">Copy ID: </label>
+    <input type="text" name="input-fname" id="input-fname">
+
+    <label for="input-homeworld">Transaction Type: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="Checkout">Checkout</option>
+        <option value="Return">Return</option>
+    </select>
+
+    <label for="input-homeworld">Returned Late: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value=1>True</option>
+        <option value=0>False</option>
+    </select>
+
+    <label for="input-lname">Days Late: </label>
+    <input type="text" name="input-fname" id="input-fname">
+
+    <label for="input-lname">Fee per Late Day: </label>
+    <input type="text" name="input-fname" id="input-fname">
+
+    <input type="submit">
+</form>
+
+<h2>Search Transaction Details</h2>
+<p></p>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Transaction: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Transaction</option>
+        {{#each data}}
+        <option value="{{this.transactionDetailsID}}">{{this.transactionID}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Copy: </label>
+    <input type="text" name="input-fname" id="input-fname">
+    <input type="submit">
+</form>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Transaction Type: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="checkout">Checkout</option>
+        <option value="return">Return</option>
+    </select>
+    <input type="submit">
+</form>

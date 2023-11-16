@@ -1,0 +1,132 @@
+<!-- boots.hbs -->
+[ <a href='/'>Libraries</a> | <a href='/boots'>Books</a> | <a href="/librarians">Librarians</a> | <a href="/readers">Readers</a> | <a href="/transactions">Transactions</a> | <a href="/copies">Copies</a> | <a href="/details">Transaction Details</a> | <a href="/codes">Status Codes</a>]
+
+<h1>Copies of Books</h1>
+<p><strong>Please see below for copies of books contained within the library system:</strong></p>
+
+{{!-- Create a table --}}
+<table id="copies-table" border="2" cellpadding="5">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Remove</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value={{this.copyID}}>
+            <td>{{this.copyID}}</td>
+            <td>{{this.bookID}}</td>
+            <td>{{this.libraryID}}</td>
+            <td><a href = '/codes'>{{this.statusCodeID}}</a></td>
+            <td><button onclick="deleteCopy({{this.copyID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_copy.js"></script>
+
+<h2>Add a New Book Copy</h2>
+<p></p>
+<form id="add-person-form" method="POST" action="/">
+    <label for="input-fname">Book: </label>
+    <input type="text" name="input-fname" id="input-fname">
+    
+    <label for="input-lname">Library: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Library</option>
+        {{#each data}}
+        <option value="{{this.transactionID}}">{{this.date}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-homeworld">Status Code: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Code</option>
+        {{#each data}}
+        <option value="{{this.transactionID}}">{{this.date}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+<h2>Search Copies</h2>
+<p></p>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Title: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Book</option>
+        {{#each data}}
+        <option value="{{this.copyID}}">{{this.bookID}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Library: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Library</option>
+        {{#each data}}
+        <option value="{{this.copyID}}">{{this.libraryID}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Status: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Code</option>
+        {{#each data}}
+        <option value="{{this.copyID}}">{{this.statusCodeID}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>
+
+<h2>Update Copy Info</h2>
+<p>Update information for an existing book copy below:</p>
+<form id="update-library-form-ajax">
+
+    <label for="input-fullname">Existing Copy ID: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Copy</option>
+        {{#each data}}
+        <option value="{{this.copyID}}">{{this.copyID}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-lname">Update Book: </label>
+    <input type="text" name="input-lname" id="input-lname">
+    <label for="input-lname">Update Library: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Library</option>
+        {{#each data}}
+        <option value="{{this.copyID}}">{{this.library}}</option>
+        {{/each}}
+    </select>
+    <label for="input-lname">Update Status: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Code</option>
+        {{#each data}}
+        <option value="{{this.copyID}}">{{this.library}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_copy.js"></script>

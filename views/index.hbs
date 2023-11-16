@@ -1,11 +1,11 @@
 <!-- index.hbs -->
-[ <a href='/boots'>Books</a> | <a href="boots.hbs">Librarians</a> | <a href="boots.hbs">Readers</a> | <a href="boots.hbs">Transactions</a> ]
+[ <a href='/'>Libraries</a> | <a href='/boots'>Books</a> | <a href="/librarians">Librarians</a> | <a href="/readers">Readers</a> | <a href="/transactions">Transactions</a> | <a href="/copies">Copies</a> | <a href="/details">Transaction Details</a> | <a href="/codes">Status Codes</a>]
 
 <h1>Libraries Database</h1>
 <p><strong>Please see below for current active libraries in the system:</strong></p>
 
 {{!-- Create a table --}}
-<table id="libraries-table">
+<table id="libraries-table" border="2" cellpadding="5">
 
     {{!-- Header section --}}
     <thead>
@@ -13,11 +13,9 @@
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>ID</th>
+            <th>Library Name</th>
+            <th>Location</th>
             <th>Remove</th>
         </tr>
     </thead>
@@ -38,9 +36,9 @@
 </table>
 <script src="./js/delete_library.js"></script>
 
-<h2>Adding a New Library</h2>
+<h2>Add a New Library</h2>
 <p></p>
-<form id="add-person-form" method="POST" action="/add-person-form">
+<form id="add-person-form" method="POST" action="/">
     <label for="input-fname">Library Name: </label>
     <input type="text" name="input-fname" id="input-fname">
     
@@ -54,8 +52,12 @@
 <p>Search for an existing library in the system by location:</p>
 <form id="search-person-html" method='GET' action='/'>
     <label for="input-lname">Search by Location: </label>
-    <input type="text" name="lname" id="input-lname-html-search">
-    
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Location</option>
+        {{#each data}}
+        <option value="{{this.libraryID}}">{{this.location}}</option>
+        {{/each}}
+    </select>
     <input type="submit">
     <a href='/'><button>Reset</button></a>
 </form>
@@ -68,17 +70,12 @@
     <select name="input-fullname" id="mySelect">
         <option value="test">Select a Location</option>
         {{#each data}}
-        <option value="{{this.id}}">{{this.fname}} {{this.lname}}</option>
+        <option value="{{this.libraryID}}">{{this.location}}</option>
         {{/each}}
     </select>
 
-    <label for="input-homeworld">Library Name: </label>
-    <select name="input-homeworld" id="input-homeworld-update">
-        <option>Select a Library</option>
-        {{#each planets}}
-        <option value="{{this.id}}">{{this.name}}</option>
-        {{/each}}
-    </select>
+    <label for="input-lname">Update Library Name: </label>
+    <input type="text" name="input-lname" id="input-lname">
     <input type="submit">
 
 </form>

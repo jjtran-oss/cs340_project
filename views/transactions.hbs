@@ -1,0 +1,75 @@
+<!-- boots.hbs -->
+[ <a href='/'>Libraries</a> | <a href='/boots'>Books</a> | <a href="/librarians">Librarians</a> | <a href="/readers">Readers</a> | <a href="/transactions">Transactions</a> | <a href="/copies">Copies</a> | <a href="/details">Transaction Details</a> | <a href="/codes">Status Codes</a>]
+
+<h1>Transactions History</h1>
+<p><strong>Please see below for records of all transactions in the library system:</strong></p>
+
+{{!-- Create a table --}}
+<table id="transactions-table" border="2" cellpadding="5">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value={{this.transactionID}}>
+            <td><a href = '/details'>{{this.transactionID}}</a></td>
+            <td>{{this.readerID}}</td>
+            <td>{{this.date}}</td>
+            <td>{{this.feesDue}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h2>Add a New Transaction</h2>
+<p></p>
+<form id="add-person-form" method="POST" action="/">
+    <label for="input-fname">Reader: </label>
+    <input type="text" name="input-fname" id="input-fname">
+    
+    <label for="input-lname">Date: </label>
+    <input type="date" name="input-lname" id="input-lname">
+
+    <label for="input-homeworld">Fees Due: </label>
+    <input type="number" name="input-homeworld" id="input-homeworld">
+
+    <input type="submit">
+</form>
+
+<h2>Search Transactions</h2>
+<p></p>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Reader: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Reader</option>
+        {{#each data}}
+        <option value="{{this.libraryID}}">{{this.location}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Date: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Date</option>
+        {{#each data}}
+        <option value="{{this.transactionID}}">{{this.date}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+</form>

@@ -1,0 +1,128 @@
+<!-- index.hbs -->
+[ <a href='/'>Libraries</a> | <a href='/boots'>Books</a> | <a href="/librarians">Librarians</a> | <a href="/readers">Readers</a> | <a href="/transactions">Transactions</a> | <a href="/copies">Copies</a> | <a href="/details">Transaction Details</a> | <a href="/codes">Status Codes</a>]
+
+<h1>Readers</h1>
+<p><strong>Please see below for current registered readers in the system:</strong></p>
+
+{{!-- Create a table --}}
+<table id="readers-table" border="2" cellpadding="5">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Remove</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value={{this.readerID}}>
+            <td>{{this.readerID}}</td>
+            <td>{{this.readerName}}</td>
+            <td>{{this.age}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.location}}</td>
+            <td>{{this.faveLibraryID}}</td>
+            <td>{{this.owesFees}}</td>
+            <td>{{this.totalFeesDue}}</td>
+            <td><button onclick="deleteReader({{this.readerID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_reader.js"></script>
+
+<h2>Add a New Reader</h2>
+<p></p>
+<form id="add-person-form" method="POST" action="/add-person-form">
+    <label for="input-fname">Reader Name: </label>
+    <input type="text" name="input-fname" id="input-fname">
+
+    <label for="input-lname">Age: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <label for="input-lname">Email: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <label for="input-lname">Location: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <label for="input-lname">Favorite Library: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Location</option>
+        <option value="test">N/A</option>
+        {{#each data}}
+        <option value="{{this.location}}">{{this.location}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+<h2>Search Readers</h2>
+<p>Search for an existing registered reader in the system:</p>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Location: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Location</option>
+        {{#each data}}
+        <option value="{{this.location}}">{{this.location}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Reader Name: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+
+<form id="search-person-html" method='GET' action='/'>
+    <label for="input-lname">Search by Reader Email: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+
+<h2>Update Reader Info</h2>
+<p>Update an existing readers's information below:</p>
+<form id="update-library-form-ajax">
+
+    <label for="input-fullname">Existing Reader Name: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select a Reader</option>
+        {{#each data}}
+        <option value="{{this.readerID}}">{{this.readerName}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-lname">Update Reader Name: </label>
+    <input type="text" name="input-lname" id="input-lname">
+    <label for="input-lname">Update Location: </label>
+    <input type="text" name="input-lname" id="input-lname">
+    <label for="input-lname">Update Age: </label>
+    <input type="text" name="input-lname" id="input-lname">
+    <label for="input-lname">Update Email: </label>
+    <input type="text" name="input-lname" id="input-lname">
+    <label for="input-lname">Update Favorite Library: </label>
+    <input type="text" name="input-lname" id="input-lname">
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_person.js"></script>

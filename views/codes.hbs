@@ -1,0 +1,68 @@
+<!-- boots.hbs -->
+[ <a href='/'>Libraries</a> | <a href='/boots'>Books</a> | <a href="/librarians">Librarians</a> | <a href="/readers">Readers</a> | <a href="/transactions">Transactions</a> | <a href="/copies">Copies</a> | <a href="/details">Transaction Details</a> | <a href="/codes">Status Codes</a>]
+
+<h1>Status Codes</h1>
+<p><strong>List of codes pertaining to status of book copies in the library system.</strong></p>
+
+{{!-- Create a table --}}
+<table id="codes-table" border="2" cellpadding="5">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>Remove</th>
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr data-value={{this.statusCodeID}}>
+            <td>{{this.statusCodeID}}</td>
+            <td>{{this.description}}</td>
+            <td><button onclick="deleteReader({{this.readerID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<h2>Add New Status Code</h2>
+<p></p>
+<form id="add-person-form" method="POST" action="/">
+    <label for="input-lname">New Status Code: </label>
+    <input type="text" name="input-fname" id="input-fname">
+
+    <label for="input-lname">Description: </label>
+    <input type="text" name="input-fname" id="input-fname">
+
+    <input type="submit">
+</form>
+
+<h2>Update Status Code</h2>
+<form id="update-library-form-ajax">
+
+    <label for="input-fullname">Status Code: </label>
+    <select name="input-fullname" id="mySelect">
+        <option value="test">Select an Existing Code</option>
+        {{#each data}}
+        <option value="{{this.statusCodeID}}">{{this.statusCodeID}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-lname">Update Description: </label>
+    <input type="text" name="input-lname" id="input-lname">
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_copy.js"></script>
